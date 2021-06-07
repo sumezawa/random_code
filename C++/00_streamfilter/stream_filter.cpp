@@ -18,10 +18,12 @@ void streamhandler(std::istringstream& input) {
 	// does not work: uint8_t
 	// work: int, double, uint16_t
 	while(input >> num || !input.eof()) {
+		// 1st expression checks if input stream is not empty
+		// 2nd expression checks for a data type discrepancy
 		if(input.fail()) {
-			input.clear();
+			input.clear(); // clears the stream 
 			std::string dummy;
-			input >> dummy;
+			input >> dummy; // streams to dummy (and don't print)
 			continue;
 		}
 		std::cout << num << std::endl;
