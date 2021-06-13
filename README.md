@@ -1,6 +1,6 @@
 # random_code
 Random code for future reference.
-Most of the code here is my original, of which the exceptions (from direct snippets to conversations with classmates) are cited as comments within the code.
+Most of the code here is my original; the exceptions (things from direct snippets to conversations with classmates) are cited as comments within the code.
 
 ## quick reference links:
 http://www.pixelbeat.org/cmdline.html (GNU Linux Commands)\
