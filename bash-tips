@@ -1,0 +1,15 @@
+TIP 1: show the $PATH
+    sammy@sammy-XPS-13-9360:~$ echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    sammy@sammy-XPS-13-9360:~$ echo "$PATH"
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+TIP 2: append to the $PATH
+    export PATH="$PATH:/home/sammy/.local/bin"
+    now it is appended to $PATH.
+    echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/sammy/.local/bin
+        
+
+TIP 3: where is $PATH even located?
+    - there is a local one at ~/.profile, and a system-wide one at /etc/.profile
