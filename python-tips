@@ -1,0 +1,184 @@
+# 10 Decembre 2021
+# global python version via $ python3 --version
+3.8.10
+
+Summary:
+Python3.8 and Python3.8-venv is sudo apt installed
+Python3.9 and Python3.9-venv is sudo apt installed
+Python3.9-pip 
+
+Diag 1: 
+As of 10 Decembre 2021 18:07:
+sammy@sammy-XPS-13-9360:~$ python3 -m pip --version
+/usr/bin/python3: No module named pip
+
+I used the following website to install python3-pip:
+    - https://linuxize.com/post/how-to-install-pip-on-ubuntu-20.04/#installing-pip-for-python-3
+
+Unknown 1:
+As of 10 Decembre 2021 18:17:
+I'm not sure if these commands are actually identical.
+sammy@sammy-XPS-13-9360:~$ python3 -m pip --version
+pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+sammy@sammy-XPS-13-9360:~$ pip --version
+pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+sammy@sammy-XPS-13-9360:~$ pip3 --version
+pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+
+Rule 1: make a new venv (virtual environment) for each project
+    - always, always, always make a new virtual environment for each project
+    - some projects break if we set a new package version as the global version
+
+Tip 1: create, activate, and deactivate a venv
+    - $ python3 -m venv venv-name
+    - $ source venv-name/bin/activate
+    - $ deactivate
+
+Tip 2: using different python3.x versions
+    - you can specify the virtual environment's python version via
+      $ python3.x -m venv venv-name
+
+Tip 3: updating pip and PATH
+    - you will get the warning
+     "WARNING: The scripts pip, pip3 and pip3.9 are installed in '/home/sammy/.local/bin' which is not on PATH."
+
+Rule 2: always "python3 -m pip install --user"
+    - by default pip installs to /usr/local/lib/python3.x
+    - the --user flag prevents this
+    - do not install packages, libraries, modules globally.
+
+
+Rule 3: do not delete Ubuntu's default Python (that includes 2.7 as well)
+
+
+URL 1: python virtual environments
+    - https://docs.python.org/3/library/venv.html
+
+URL 2: pip-installing in different virtual environments
+    - https://docs.python.org/3/tutorial/venv.html
+
+Diag 2: python sites
+sammy@sammy-XPS-13-9360:~/.local/lib$ python3.8 -m site
+sys.path = [
+    '/home/sammy/.local/lib',
+    '/usr/lib/python38.zip',
+    '/usr/lib/python3.8',
+    '/usr/lib/python3.8/lib-dynload',
+    '/usr/local/lib/python3.8/dist-packages',
+    '/usr/lib/python3/dist-packages',
+]
+USER_BASE: '/home/sammy/.local' (exists)
+USER_SITE: '/home/sammy/.local/lib/python3.8/site-packages' (doesn't exist)
+ENABLE_USER_SITE: True
+sammy@sammy-XPS-13-9360:~/.local/lib$ python3.9 -m site
+sys.path = [
+    '/home/sammy/.local/lib',
+    '/usr/lib/python39.zip',
+    '/usr/lib/python3.9',
+    '/usr/lib/python3.9/lib-dynload',
+    '/home/sammy/.local/lib/python3.9/site-packages',
+    '/usr/local/lib/python3.9/dist-packages',
+    '/usr/lib/python3/dist-packages',
+]
+USER_BASE: '/home/sammy/.local' (exists)
+USER_SITE: '/home/sammy/.local/lib/python3.9/site-packages' (exists)
+ENABLE_USER_SITE: True
+sammy@sammy-XPS-13-9360:~/.local/lib$ python3 -m site
+sys.path = [
+    '/home/sammy/.local/lib',
+    '/usr/lib/python38.zip',
+    '/usr/lib/python3.8',
+    '/usr/lib/python3.8/lib-dynload',
+    '/usr/local/lib/python3.8/dist-packages',
+    '/usr/lib/python3/dist-packages',
+]
+USER_BASE: '/home/sammy/.local' (exists)
+USER_SITE: '/home/sammy/.local/lib/python3.8/site-packages' (doesn't exist)
+ENABLE_USER_SITE: True
+
+Diag 3: Pip versions
+    1. sudo apt install python3.9 (i have python3.9 globally)
+    2. sudo apt install python3.9-venv (along with 3.9venv)
+    3. python3.9 -m pip install --upgrade pip (locally upgraded pip for 3.9)
+
+    Note, we get a warning for step 3:
+    - "WARNING: The scripts pip, pip3 and pip3.9 are installed in '/home/sammy/.local/bin' 
+       which is not on PATH. Consider adding this directory to PATH or, if you prefer to 
+       suppress this warning, use --no-warn-script-location."
+        
+       we need to add the command
+        export PATH="$PATH:/home/sammy/.local/bin"
+       to ~/.bashrc according to a stackoverflow post:
+       https://stackoverflow.com/questions/61026031/pip-installation-for-python3-problem-consider-adding-this-directory-to-path
+
+    - below are my pip versions, and their locations
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3.8 -m pip --version
+        pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3.9 -m pip --version
+        pip 21.3.1 from /home/sammy/.local/lib/python3.9/site-packages/pip (python 3.9)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3 -m pip --version
+        pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ pip --version
+        pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ pip3 --version
+        pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ 
+    - we now specify which pip to invoke via the python3 version. for
+      things that need the newer python / pip, we do all this locally
+
+    - interestingly we can also update pip within a venv. notice that one of the 3.9 venv's have pip21, and another has pip 20
+        sammy@sammy-XPS-13-9360:~/py-venvs/tutorial$ source bin/activate
+        (tutorial) sammy@sammy-XPS-13-9360:~/py-venvs/tutorial$ pip --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial/lib/python3.8/site-packages/pip (python 3.8)
+        (tutorial) sammy@sammy-XPS-13-9360:~/py-venvs/tutorial$ pip3 --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial/lib/python3.8/site-packages/pip (python 3.8)
+        (tutorial) sammy@sammy-XPS-13-9360:~/py-venvs/tutorial$ deactivate
+        sammy@sammy-XPS-13-9360:~/py-venvs/tutorial$ cd ..
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3.9 -m venv tutorial_39
+        sammy@sammy-XPS-13-9360:~/py-venvs$ ls
+        tutorial  tutorial_39
+        sammy@sammy-XPS-13-9360:~/py-venvs$ source tutorial
+        tutorial/    tutorial_39/
+        sammy@sammy-XPS-13-9360:~/py-venvs$ source tutorial_39/bin/activate
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ pip --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial_39/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ python3.9 -m pip --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial_39/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ pip3 --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial_39/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ python3 -m pip install --upgrade pip
+        Collecting pip
+          Using cached pip-21.3.1-py3-none-any.whl (1.7 MB)
+        Installing collected packages: pip
+          Attempting uninstall: pip
+            Found existing installation: pip 20.0.2
+            Uninstalling pip-20.0.2:
+              Successfully uninstalled pip-20.0.2
+        Successfully installed pip-21.3.1
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ pip3 --version
+        pip 21.3.1 from /home/sammy/py-venvs/tutorial_39/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ python3.9 -m pip --version
+        pip 21.3.1 from /home/sammy/py-venvs/tutorial_39/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ python3.8 -m pip --version
+        pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+        (tutorial_39) sammy@sammy-XPS-13-9360:~/py-venvs$ deactivate
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3.9 -m pip --version
+        pip 21.3.1 from /home/sammy/.local/lib/python3.9/site-packages/pip (python 3.9)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3.8 -m pip --version
+        pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
+        sammy@sammy-XPS-13-9360:~/py-venvs$ ls
+        tutorial  tutorial_39
+        sammy@sammy-XPS-13-9360:~/py-venvs$ python3.9 -m venv tutorial_39_pip20
+        sammy@sammy-XPS-13-9360:~/py-venvs$ source tutorial_39_pip20/bin/activate
+        (tutorial_39_pip20) sammy@sammy-XPS-13-9360:~/py-venvs$ pip3 --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial_39_pip20/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39_pip20) sammy@sammy-XPS-13-9360:~/py-venvs$ python3 -m pip3 --version
+        /home/sammy/py-venvs/tutorial_39_pip20/bin/python3: No module named pip3
+        (tutorial_39_pip20) sammy@sammy-XPS-13-9360:~/py-venvs$ python3 -m pip --version
+        pip 20.0.2 from /home/sammy/py-venvs/tutorial_39_pip20/lib/python3.9/site-packages/pip (python 3.9)
+        (tutorial_39_pip20) sammy@sammy-XPS-13-9360:~/py-venvs$ deactivate
+
+Question 1: how do you use the "-m" flag?
+    - $ python3 -m module-name script-name
+    - this looks for that module in sys.path and execute it as __main__ 
+
